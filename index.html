@@ -1,1 +1,298 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joe's Foodtruck Demo</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #f6f6f6; color: #222; }
+    header { background: #111; color: white; padding: 18px; text-align: center; position: sticky; top: 0; z-index: 10; }
+    header h1 { font-size: 26px; margin-bottom: 6px; }
+    header p { font-size: 14px; color: #ddd; }
+    .hero { padding: 28px 18px; text-align: center; background: linear-gradient(135deg, #d71920, #ff8c00); color: white; }
+    .hero h2 { font-size: 30px; margin-bottom: 10px; }
+    .hero p { font-size: 16px; max-width: 760px; margin: 0 auto; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 18px; }
+    .top-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    .action-btn { background: white; border: 2px solid #ddd; border-radius: 14px; padding: 16px; text-align: center; font-weight: bold; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .action-btn:hover { border-color: #d71920; }
+    .layout { display: grid; grid-template-columns: 1fr 360px; gap: 18px; align-items: start; }
+    .section-title { margin: 22px 0 12px; font-size: 24px; color: #111; border-left: 6px solid #d71920; padding-left: 10px; }
+    .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .card { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    .card h3 { margin-bottom: 6px; font-size: 18px; }
+    .price { font-weight: bold; color: #d71920; margin-bottom: 10px; }
+    .desc { font-size: 14px; color: #666; margin-bottom: 12px; min-height: 36px; }
+    label { display: block; font-size: 13px; font-weight: bold; margin: 8px 0 5px; }
+    select, input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; background: white; }
+    textarea { resize: vertical; min-height: 54px; }
+    .selector-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .add-btn, .submit-btn, .clear-btn { width: 100%; border: none; border-radius: 12px; padding: 12px; margin-top: 12px; font-size: 15px; font-weight: bold; cursor: pointer; }
+    .add-btn, .submit-btn { background: #d71920; color: white; }
+    .clear-btn { background: #eee; color: #222; }
+    .cart { background: white; border-radius: 18px; padding: 18px; box-shadow: 0 3px 14px rgba(0,0,0,0.12); position: sticky; top: 92px; }
+    .cart h2 { margin-bottom: 12px; }
+    .cart-empty { color: #777; font-size: 14px; padding: 10px 0; }
+    .cart-item { border-bottom: 1px solid #eee; padding: 10px 0; font-size: 14px; }
+    .cart-item strong { display: block; margin-bottom: 4px; }
+    .cart-small { color: #666; font-size: 13px; line-height: 1.35; }
+    .cart-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; margin-top: 16px; }
+    .customer-box { margin-top: 16px; border-top: 1px solid #eee; padding-top: 14px; }
+    .ticket-box { display: none; background: #e9ffe9; border: 1px solid #9bd39b; border-radius: 14px; padding: 14px; margin-top: 14px; text-align: center; }
+    .kds-preview { margin-top: 26px; background: #111; color: white; border-radius: 18px; padding: 18px; }
+    .kds-preview h2 { margin-bottom: 12px; }
+    .kds-card { background: #222; border-left: 6px solid #ff8c00; border-radius: 12px; padding: 14px; margin-top: 10px; }
+    footer { text-align: center; padding: 24px; color: #777; font-size: 13px; }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .cart { position: static; } }
+    @media (max-width: 650px) { .top-actions { grid-template-columns: 1fr 1fr; } .menu-grid { grid-template-columns: 1fr; } .selector-row { grid-template-columns: 1fr; } .hero h2 { font-size: 24px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Joe's Foodtruck</h1>
+    <p>Demo ordering system powered by TheWardenBot</p>
+  </header>  <section class="hero">
+    <h2>Order Fast. No Handwritten Tickets.</h2>
+    <p>This mock demo shows customer ordering, staff order entry, KDS workflow, and printer-ready tickets.</p>
+  </section>  <main class="container">
+    <div class="top-actions">
+      <div class="action-btn">Customer Order</div>
+      <div class="action-btn">Staff Login</div>
+      <div class="action-btn">Manager Login</div>
+      <div class="action-btn">KDS View</div>
+    </div><div class="layout">
+  <section>
+    <h2 class="section-title">Main Items</h2>
+    <div class="menu-grid" id="mainItems"></div>
 
+    <h2 class="section-title">Sides</h2>
+    <div class="menu-grid" id="sideItems"></div>
+
+    <h2 class="section-title">Drinks</h2>
+    <div class="menu-grid" id="drinkItems"></div>
+
+    <section class="kds-preview">
+      <h2>KDS Preview</h2>
+      <p>Kitchen tickets can show only changed modifiers and special requests.</p>
+      <div class="kds-card" id="kdsPreview">No active demo ticket yet.</div>
+    </section>
+  </section>
+
+  <aside class="cart">
+    <h2>Current Order</h2>
+    <div id="cartItems" class="cart-empty">No items added yet.</div>
+    <div class="cart-total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+
+    <div class="customer-box">
+      <label for="customerName">Customer Name</label>
+      <input id="customerName" placeholder="Example: John" />
+      <label for="customerPhone">Phone Last 4</label>
+      <input id="customerPhone" placeholder="1234" maxlength="4" />
+      <button class="submit-btn" onclick="submitOrder()">Place Demo Order</button>
+      <button class="clear-btn" onclick="clearCart()">Clear Order</button>
+      <div class="ticket-box" id="ticketBox"></div>
+    </div>
+  </aside>
+</div>
+
+  </main>  <footer>
+    Joe's Foodtruck is a demo business used to show TheWardenBot ordering, staff, manager, KDS, and printer logic.
+  </footer>  <script>
+    const modifierOptions = ['Normal', 'Extra', 'Light', 'None'];
+
+    const mains = [
+      { name: 'Classic Smash Burger', price: 10.99, desc: 'Beef patty, cheese, pickles, onions, house sauce.', mods: ['Onions', 'Pickles', 'Cheese', 'Sauce'] },
+      { name: 'Bacon BBQ Burger', price: 12.49, desc: 'Bacon, cheddar, BBQ sauce, crispy onions.', mods: ['Onions', 'Cheese', 'BBQ Sauce', 'Bacon'] },
+      { name: 'Crispy Chicken Sandwich', price: 10.49, desc: 'Crispy chicken, lettuce, tomato, ranch.', mods: ['Lettuce', 'Tomato', 'Ranch', 'Pickles'] },
+      { name: 'Buffalo Chicken Wrap', price: 9.99, desc: 'Buffalo chicken, lettuce, cheese, ranch wrap.', mods: ['Lettuce', 'Cheese', 'Buffalo Sauce', 'Ranch'] },
+      { name: 'Loaded Street Tacos', price: 11.99, desc: 'Three tacos with meat, cheese, salsa, onions.', mods: ['Onions', 'Cheese', 'Salsa', 'Cilantro'] },
+      { name: 'Philly Cheesesteak', price: 12.99, desc: 'Steak, peppers, onions, cheese sauce.', mods: ['Peppers', 'Onions', 'Cheese Sauce', 'Mayo'] },
+      { name: 'Pulled Pork Sandwich', price: 11.49, desc: 'Slow pulled pork, BBQ, slaw, toasted bun.', mods: ['BBQ Sauce', 'Slaw', 'Pickles', 'Onions'] },
+      { name: 'Loaded Nachos', price: 10.99, desc: 'Chips, cheese, meat, salsa, sour cream.', mods: ['Cheese', 'Salsa', 'Sour Cream', 'Jalapenos'] },
+      { name: 'Chicken Quesadilla', price: 9.49, desc: 'Grilled tortilla, chicken, cheese, salsa.', mods: ['Cheese', 'Salsa', 'Sour Cream', 'Jalapenos'] },
+      { name: 'Foodtruck Combo Basket', price: 13.99, desc: 'Choice of main, side, and drink.', mods: ['Sauce', 'Cheese', 'Onions', 'Pickles'] }
+    ];
+
+    const sides = [
+      { name: 'Seasoned Fries', price: 3.50, desc: 'Crispy fries with house seasoning.', mods: ['Salt', 'Seasoning'] },
+      { name: 'Onion Rings', price: 4.25, desc: 'Golden fried onion rings.', mods: ['Salt', 'Sauce'] },
+      { name: 'Mozzarella Sticks', price: 5.25, desc: 'Fried mozzarella with marinara.', mods: ['Marinara', 'Seasoning'] },
+      { name: 'Mac Bites', price: 4.75, desc: 'Crispy mac and cheese bites.', mods: ['Salt', 'Sauce'] }
+    ];
+
+    const drinks = [
+      'Coke', 'Diet Coke', 'Sprite', 'Dr Pepper', 'Mountain Dew',
+      'Root Beer', 'Lemonade', 'Sweet Tea', 'Unsweet Tea', 'Water'
+    ].map(name => ({ name, price12: 2.00, price20: 3.00 }));
+
+    let cart = [];
+
+    function money(value) { return '$' + value.toFixed(2); }
+
+    function modSelect(itemName, mod) {
+      return `
+        <label>${mod}</label>
+        <select id="${cssId(itemName + mod)}">
+          ${modifierOptions.map(o => `<option value="${o}" ${o === 'Normal' ? 'selected' : ''}>${o}</option>`).join('')}
+        </select>
+      `;
+    }
+
+    function cssId(text) {
+      return text.replace(/[^a-zA-Z0-9]/g, '');
+    }
+
+    function renderMenu() {
+      document.getElementById('mainItems').innerHTML = mains.map(item => renderFoodCard(item, 'main')).join('');
+      document.getElementById('sideItems').innerHTML = sides.map(item => renderFoodCard(item, 'side')).join('');
+      document.getElementById('drinkItems').innerHTML = drinks.map(item => renderDrinkCard(item)).join('');
+    }
+
+    function renderFoodCard(item, type) {
+      const id = cssId(item.name);
+      return `
+        <div class="card">
+          <h3>${item.name}</h3>
+          <div class="price">${money(item.price)}</div>
+          <p class="desc">${item.desc}</p>
+          <div class="selector-row">
+            ${item.mods.map(mod => `<div>${modSelect(item.name, mod)}</div>`).join('')}
+          </div>
+          <label>Additional Side Request</label>
+          <select id="sideReq${id}">
+            <option value="None" selected>No extra side</option>
+            ${sides.map(side => `<option value="${side.name}">${side.name} +${money(side.price)}</option>`).join('')}
+          </select>
+          <label>Special Request</label>
+          <textarea id="note${id}" placeholder="Example: sauce on side, extra crispy, allergy note"></textarea><button class="add-btn" onclick="addFoodItem('${type}', '${item.name.replace(/'/g, "\\'")}')">Add to Order</button>
+    </div>
+  `;
+}
+
+function renderDrinkCard(item) {
+  const id = cssId(item.name);
+  return `
+    <div class="card">
+      <h3>${item.name}</h3>
+      <div class="price">12oz ${money(item.price12)} / 20oz ${money(item.price20)}</div>
+      <p class="desc">Choose only 12oz or 20oz for drink size.</p>
+      <label>Size</label>
+      <select id="drinkSize${id}">
+        <option value="12oz" selected>12oz</option>
+        <option value="20oz">20oz</option>
+      </select>
+      <label>Ice</label>
+      <select id="ice${id}">
+        <option value="Normal" selected>Normal</option>
+        <option value="Extra">Extra</option>
+        <option value="Light">Light</option>
+        <option value="None">None</option>
+      </select>
+      <button class="add-btn" onclick="addDrink('${item.name}')">Add Drink</button>
+    </div>
+  `;
+}
+
+function findFood(name) {
+  return [...mains, ...sides].find(i => i.name === name);
+}
+
+function addFoodItem(type, name) {
+  const item = findFood(name);
+  const id = cssId(name);
+  const mods = {};
+  item.mods.forEach(mod => {
+    const val = document.getElementById(cssId(name + mod)).value;
+    if (val !== 'Normal') mods[mod] = val;
+  });
+
+  const sideReq = document.getElementById('sideReq' + id).value;
+  const sideItem = sides.find(s => s.name === sideReq);
+  const note = document.getElementById('note' + id).value.trim();
+  const extraCost = sideItem ? sideItem.price : 0;
+
+  cart.push({ type, name, price: item.price + extraCost, mods, sideReq, note });
+  updateCart();
+}
+
+function addDrink(name) {
+  const drink = drinks.find(d => d.name === name);
+  const id = cssId(name);
+  const size = document.getElementById('drinkSize' + id).value;
+  const ice = document.getElementById('ice' + id).value;
+  const price = size === '20oz' ? drink.price20 : drink.price12;
+  const mods = ice !== 'Normal' ? { Ice: ice } : {};
+  cart.push({ type: 'drink', name: `${name} (${size})`, price, mods, sideReq: 'None', note: '' });
+  updateCart();
+}
+
+function updateCart() {
+  const cartBox = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    cartBox.className = 'cart-empty';
+    cartBox.innerHTML = 'No items added yet.';
+  } else {
+    cartBox.className = '';
+    cartBox.innerHTML = cart.map(item => {
+      const modText = Object.keys(item.mods).length ? Object.entries(item.mods).map(([k,v]) => `${k}: ${v}`).join(', ') : 'No changes';
+      const sideText = item.sideReq && item.sideReq !== 'None' ? `Extra side: ${item.sideReq}` : '';
+      const noteText = item.note ? `Note: ${item.note}` : '';
+      return `
+        <div class="cart-item">
+          <strong>${item.name} - ${money(item.price)}</strong>
+          <div class="cart-small">${modText}</div>
+          ${sideText ? `<div class="cart-small">${sideText}</div>` : ''}
+          ${noteText ? `<div class="cart-small">${noteText}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  document.getElementById('cartTotal').textContent = money(total);
+}
+
+function clearCart() {
+  cart = [];
+  updateCart();
+  document.getElementById('ticketBox').style.display = 'none';
+  document.getElementById('kdsPreview').textContent = 'No active demo ticket yet.';
+}
+
+function submitOrder() {
+  if (cart.length === 0) {
+    alert('Add at least one item first.');
+    return;
+  }
+
+  const ticket = 'JF-' + Math.floor(1000 + Math.random() * 9000);
+  const name = document.getElementById('customerName').value.trim() || 'Demo Customer';
+  const phone = document.getElementById('customerPhone').value.trim() || '0000';
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  document.getElementById('ticketBox').style.display = 'block';
+  document.getElementById('ticketBox').innerHTML = `
+    <strong>Order Received</strong><br>
+    Ticket: <strong>${ticket}</strong><br>
+    Name: ${name}<br>
+    Phone Last 4: ${phone}<br>
+    Total: ${money(total)}<br>
+    Status: Received
+  `;
+
+  document.getElementById('kdsPreview').innerHTML = `
+    <strong>${ticket} - ${name}</strong><br><br>
+    ${cart.map(item => {
+      const mods = Object.keys(item.mods).length ? '<br>' + Object.entries(item.mods).map(([k,v]) => `${k}: ${v}`).join('<br>') : '';
+      const side = item.sideReq && item.sideReq !== 'None' ? `<br>Extra Side: ${item.sideReq}` : '';
+      const note = item.note ? `<br>NOTE: ${item.note}` : '';
+      return `${item.name}${mods}${side}${note}`;
+    }).join('<br><br>')}
+  `;
+}
+
+renderMenu();
+updateCart();
+
+  </script>
+</body>
+</html>
