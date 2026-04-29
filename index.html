@@ -1,36 +1,50 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Joe's Foodtruck Demo</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
-    body { background: #f6f6f6; color: #222; }
-    header { background: #111; color: white; padding: 18px; text-align: center; position: sticky; top: 0; z-index: 10; }
-    header h1 { font-size: 26px; margin-bottom: 6px; }
-    header p { font-size: 14px; color: #ddd; }
-    .hero { padding: 28px 18px; text-align: center; background: linear-gradient(135deg, #d71920, #ff8c00); color: white; }
-    .hero h2 { font-size: 30px; margin-bottom: 10px; }
-    .hero p { font-size: 16px; max-width: 760px; margin: 0 auto; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 18px; }
-    .top-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-    .action-btn { background: white; border: 2px solid #ddd; border-radius: 14px; padding: 16px; text-align: center; font-weight: bold; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .action-btn:hover { border-color: #d71920; }
+    body { background: #f4f1ec; color: #1f1f1f; }
+    header { background: rgba(12,12,14,0.96); backdrop-filter: blur(10px); color: white; padding: 16px; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .header-row { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand h1 { font-size: 22px; margin-bottom: 3px; }
+    .brand p { font-size: 12px; color: #ddd; }
+    .header-actions { display: flex; gap: 8px; }
+    button { font-family: inherit; }
+    .small-btn { border: 1px solid #555; background: #222; color: white; border-radius: 999px; padding: 10px 14px; font-weight: bold; cursor: pointer; }
+    .small-btn.primary { background: #d71920; border-color: #d71920; }
+    .hero { padding: 34px 18px; text-align: center; background: radial-gradient(circle at top left, rgba(255,180,70,0.9), transparent 35%), linear-gradient(135deg, #1b1b1f, #d71920 65%, #ff8c00); color: white; }
+    .hero h2 { font-size: 34px; margin-bottom: 8px; letter-spacing: -0.8px; }
+    .hero p { font-size: 15px; max-width: 760px; margin: 0 auto; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 18px; }
+    .category-card { background: linear-gradient(180deg,#fff,#faf7f2); border-radius: 22px; padding: 22px; box-shadow: 0 12px 30px rgba(0,0,0,0.09); cursor: pointer; border: 1px solid rgba(0,0,0,0.06); transition: transform .15s ease, box-shadow .15s ease; }
+    .category-card:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(0,0,0,0.13); }
+    .category-card h3 { font-size: 22px; margin-bottom: 8px; }
+    .category-card p { color: #666; font-size: 14px; }
     .layout { display: grid; grid-template-columns: 1fr 360px; gap: 18px; align-items: start; }
-    .section-title { margin: 22px 0 12px; font-size: 24px; color: #111; border-left: 6px solid #d71920; padding-left: 10px; }
+    .section-title { margin: 8px 0 14px; font-size: 24px; color: #111; border-left: 6px solid #d71920; padding-left: 10px; }
+    .back-btn { margin-bottom: 14px; border: none; background: #eee; border-radius: 10px; padding: 10px 12px; font-weight: bold; cursor: pointer; }
     .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .card { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    .card { background: #fff; border-radius: 20px; padding: 16px; box-shadow: 0 12px 28px rgba(0,0,0,0.09); border: 1px solid rgba(0,0,0,0.06); overflow: hidden; }
     .card h3 { margin-bottom: 6px; font-size: 18px; }
     .price { font-weight: bold; color: #d71920; margin-bottom: 10px; }
-    .desc { font-size: 14px; color: #666; margin-bottom: 12px; min-height: 36px; }
-    label { display: block; font-size: 13px; font-weight: bold; margin: 8px 0 5px; }
-    select, input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; background: white; }
-    textarea { resize: vertical; min-height: 54px; }
-    .selector-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .desc { font-size: 14px; color: #666; margin-bottom: 12px; min-height: 34px; }
+    label { display: block; font-size: 13px; font-weight: bold; margin: 10px 0 6px; }
+    input, textarea, select { width: 100%; padding: 11px; border: 1px solid #ccc; border-radius: 10px; font-size: 15px; background: white; }
+    textarea { resize: vertical; min-height: 58px; }
+    .modifier { margin: 10px 0; }
+    .touch-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+    .touch-option { border: 1px solid #ccc; border-radius: 12px; padding: 10px 5px; background: #f8f8f8; font-weight: bold; font-size: 13px; cursor: pointer; text-align: center; }
+    .touch-option.active { background: #d71920; color: white; border-color: #d71920; }
     .add-btn, .submit-btn, .clear-btn { width: 100%; border: none; border-radius: 12px; padding: 12px; margin-top: 12px; font-size: 15px; font-weight: bold; cursor: pointer; }
-    .add-btn, .submit-btn { background: #d71920; color: white; }
+    .add-btn, .submit-btn { background: linear-gradient(135deg,#d71920,#ff7a00); color: white; box-shadow: 0 8px 18px rgba(215,25,32,0.22); }
     .clear-btn { background: #eee; color: #222; }
-    .cart { background: white; border-radius: 18px; padding: 18px; box-shadow: 0 3px 14px rgba(0,0,0,0.12); position: sticky; top: 92px; }
+    .cart { background: #fff; border-radius: 22px; padding: 18px; box-shadow: 0 18px 42px rgba(0,0,0,0.16); position: sticky; top: 88px; border: 1px solid rgba(0,0,0,0.06); }
     .cart h2 { margin-bottom: 12px; }
     .cart-empty { color: #777; font-size: 14px; padding: 10px 0; }
     .cart-item { border-bottom: 1px solid #eee; padding: 10px 0; font-size: 14px; }
@@ -39,67 +53,194 @@
     .cart-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; margin-top: 16px; }
     .customer-box { margin-top: 16px; border-top: 1px solid #eee; padding-top: 14px; }
     .ticket-box { display: none; background: #e9ffe9; border: 1px solid #9bd39b; border-radius: 14px; padding: 14px; margin-top: 14px; text-align: center; }
-    .kds-preview { margin-top: 26px; background: #111; color: white; border-radius: 18px; padding: 18px; }
-    .kds-preview h2 { margin-bottom: 12px; }
-    .kds-card { background: #222; border-left: 6px solid #ff8c00; border-radius: 12px; padding: 14px; margin-top: 10px; }
+    .staff-wrap { max-width: 650px; margin: 0 auto; }
+    .login-card, .panel-card { background: white; border-radius: 18px; padding: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); margin-bottom: 14px; }
+    .staff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 16px; }
+    .staff-tile { background: #111; color: white; border-radius: 16px; padding: 18px; cursor: pointer; }
+    .staff-tile h3 { margin-bottom: 6px; }
+    .staff-tile p { color: #ddd; font-size: 13px; }
+    .kds-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .kds-column { background: #111; color: white; border-radius: 18px; padding: 14px; min-height: 240px; }
+    .kds-column h3 { margin-bottom: 12px; }
+    .kds-card { background: #222; border-left: 6px solid #ff8c00; border-radius: 12px; padding: 14px; margin-top: 10px; font-size: 14px; line-height: 1.4; }
+    .manager-list { display: grid; gap: 10px; margin-top: 12px; }
+    .availability-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: #f7f7f7; padding: 12px; border-radius: 12px; }
+    .soldout { background: #555; color: white; border: none; border-radius: 10px; padding: 8px 10px; cursor: pointer; }
+    .available { background: #149447; color: white; border: none; border-radius: 10px; padding: 8px 10px; cursor: pointer; }
     footer { text-align: center; padding: 24px; color: #777; font-size: 13px; }
-    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .cart { position: static; } }
-    @media (max-width: 650px) { .top-actions { grid-template-columns: 1fr 1fr; } .menu-grid { grid-template-columns: 1fr; } .selector-row { grid-template-columns: 1fr; } .hero h2 { font-size: 24px; } }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .cart { position: static; } .kds-board { grid-template-columns: 1fr; } }
+    @media (max-width: 650px) { .category-grid, .menu-grid, .staff-grid { grid-template-columns: 1fr; } .hero h2 { font-size: 24px; } .header-row { align-items: flex-start; } .header-actions { flex-direction: column; } }
   </style>
 </head>
 <body>
   <header>
-    <h1>Joe's Foodtruck</h1>
-    <p>Demo ordering system powered by TheWardenBot</p>
-  </header>  <section class="hero">
-    <h2>Order Fast. No Handwritten Tickets.</h2>
-    <p>This mock demo shows customer ordering, staff order entry, KDS workflow, and printer-ready tickets.</p>
-  </section>  <main class="container">
-    <div class="top-actions">
-      <div class="action-btn">Customer Order</div>
-      <div class="action-btn">Staff Login</div>
-      <div class="action-btn">Manager Login</div>
-      <div class="action-btn">KDS View</div>
-    </div><div class="layout">
-  <section>
-    <h2 class="section-title">Main Items</h2>
-    <div class="menu-grid" id="mainItems"></div>
+    <div class="header-row">
+      <div class="brand" onclick="showView('customerHome')">
+        <h1>Joe's Foodtruck</h1>
+        <p>Powered by TheWardenBot Ordering System</p>
+      </div>
+      <div class="header-actions">
+        <button class="small-btn primary" onclick="showView('customerHome')">Order</button>
+        <button class="small-btn" onclick="showView('staffLogin')">Staff Login</button>
+      </div>
+    </div>
+  </header>
 
-    <h2 class="section-title">Sides</h2>
-    <div class="menu-grid" id="sideItems"></div>
-
-    <h2 class="section-title">Drinks</h2>
-    <div class="menu-grid" id="drinkItems"></div>
-
-    <section class="kds-preview">
-      <h2>KDS Preview</h2>
-      <p>Kitchen tickets can show only changed modifiers and special requests.</p>
-      <div class="kds-card" id="kdsPreview">No active demo ticket yet.</div>
-    </section>
+  <section class="hero">
+    <h2>Fresh Food. Fast Ordering.</h2>
+    <p>Choose a category, customize your order, and send it straight to the kitchen.</p>
   </section>
 
-  <aside class="cart">
-    <h2>Current Order</h2>
-    <div id="cartItems" class="cart-empty">No items added yet.</div>
-    <div class="cart-total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+  <main class="container">
+    <section id="customerHome" class="view active">
+      <h2 class="section-title">Start Your Order</h2>
+      <div class="category-grid">
+        <div class="category-card" onclick="openCategory('mains')"><h3>🍔 Main Items</h3><p>10 food truck favorites.</p></div>
+        <div class="category-card" onclick="openCategory('sides')"><h3>🍟 Sides</h3><p>Fries, rings, mac bites, and mozzarella sticks.</p></div>
+        <div class="category-card" onclick="openCategory('drinks')"><h3>🥤 Drinks</h3><p>One drink selector with 12oz or 20oz sizes.</p></div>
+        <div class="category-card" onclick="showView('orderStatus')"><h3>🎟 Track Order</h3><p>Track by ticket number and phone last 4.</p></div>
+      </div>
+    </section>
 
-    <div class="customer-box">
-      <label for="customerName">Customer Name</label>
-      <input id="customerName" placeholder="Example: John" />
-      <label for="customerPhone">Phone Last 4</label>
-      <input id="customerPhone" placeholder="1234" maxlength="4" />
-      <button class="submit-btn" onclick="submitOrder()">Place Demo Order</button>
-      <button class="clear-btn" onclick="clearCart()">Clear Order</button>
-      <div class="ticket-box" id="ticketBox"></div>
-    </div>
-  </aside>
-</div>
+    <section id="categoryView" class="view">
+      <button class="back-btn" onclick="showView('customerHome')">← Back to Categories</button>
+      <div class="layout">
+        <section>
+          <h2 class="section-title" id="categoryTitle"></h2>
+          <div class="menu-grid" id="categoryItems"></div>
+        </section>
+        <aside class="cart">
+          <h2>Current Order</h2>
+          <div id="cartItems" class="cart-empty">No items added yet.</div>
+          <div class="cart-total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+          <div class="customer-box">
+            <label for="customerName">Customer Name</label>
+            <input id="customerName" placeholder="Example: John" />
+            <label for="customerPhone">Phone Last 4</label>
+            <input id="customerPhone" placeholder="1234" maxlength="4" />
+            <button class="submit-btn" onclick="submitOrder()">Place Demo Order</button>
+            <button class="clear-btn" onclick="clearCart()">Clear Order</button>
+            <div class="ticket-box" id="ticketBox"></div>
+          </div>
+        </aside>
+      </div>
+    </section>
 
-  </main>  <footer>
-    Joe's Foodtruck is a demo business used to show TheWardenBot ordering, staff, manager, KDS, and printer logic.
-  </footer>  <script>
-    const modifierOptions = ['Normal', 'Extra', 'Light', 'None'];
+    <section id="orderStatus" class="view">
+      <button class="back-btn" onclick="showView('customerHome')">← Back</button>
+      <div class="login-card">
+        <h2>Track Order</h2>
+        <label>Ticket Number</label>
+        <input placeholder="Example: JF-1234" />
+        <label>Phone Last 4</label>
+        <input placeholder="1234" maxlength="4" />
+        <button class="submit-btn">Track Demo Order</button>
+      </div>
+    </section>
 
+    <section id="staffLogin" class="view">
+      <div class="staff-wrap">
+        <button class="back-btn" onclick="showView('customerHome')">← Back to Customer Order</button>
+        <div id="firstSetupCard" class="login-card">
+          <h2>First-Time Store Setup</h2>
+          <p style="color:#666;margin:8px 0 14px;">Create the first manager login for this store. This is a one-time setup in the real system.</p>
+          <label>Store Name</label>
+          <input id="setupStoreName" placeholder="Joe's Foodtruck" value="Joe's Foodtruck" />
+          <label>Manager Name</label>
+          <input id="setupManagerName" placeholder="Manager name" />
+          <label>Manager Email / Username</label>
+          <input id="setupEmail" placeholder="manager@joesfoodtruck.com" />
+          <label>Create Password</label>
+          <input id="setupPassword" type="password" placeholder="Create password" />
+          <button class="submit-btn" onclick="completeFirstSetup()">Create Store Login</button>
+        </div>
+        <div id="loginCard" class="login-card" style="display:none;">
+          <h2>Staff / Manager Login</h2>
+          <p style="color:#666;margin:8px 0 14px;">Use the store login created during setup, then add employees from the dashboard.</p>
+          <label>Email / Username</label>
+          <input id="loginEmail" placeholder="manager@joesfoodtruck.com" />
+          <label>Password</label>
+          <input id="loginPassword" type="password" placeholder="Password" />
+          <button class="submit-btn" onclick="demoLogin()">Login</button>
+          <button class="clear-btn" onclick="resetDemoSetup()">Reset Demo Setup</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="staffDashboard" class="view">
+      <button class="back-btn" onclick="showView('staffLogin')">← Logout</button>
+      <h2 class="section-title">Staff Dashboard</h2>
+      <div class="staff-grid">
+        <div class="staff-tile" onclick="showView('customerHome')"><h3>+ New Order</h3><p>Create a walk-up/local order from phone or tablet.</p></div>
+        <div class="staff-tile" onclick="showView('kdsView')"><h3>KDS Display</h3><p>View kitchen tickets by status.</p></div>
+        <div class="staff-tile" onclick="showView('addEmployee')"><h3>Add Employee</h3><p>Create new staff or manager login credentials.</p></div>
+        <div class="staff-tile" onclick="showView('menuAvailability')"><h3>Edit Menu Availability</h3><p>Mark items available or sold out.</p></div>
+      </div>
+    </section>
+
+    <section id="kdsView" class="view">
+      <button class="back-btn" onclick="showView('staffDashboard')">← Back to Staff Dashboard</button>
+      <h2 class="section-title">Kitchen Display System</h2>
+      <div class="kds-board">
+        <div class="kds-column"><h3>New</h3><div id="kdsNew">No new orders yet.</div></div>
+        <div class="kds-column"><h3>Preparing</h3><div class="kds-card">JF-1021<br>Classic Smash Burger<br>Onions: None<br>Cheese: Extra</div></div>
+        <div class="kds-column"><h3>Ready</h3><div class="kds-card">JF-1018<br>Chicken Quesadilla<br>Drink: Coke 20oz</div></div>
+      </div>
+    </section>
+
+    <section id="addEmployee" class="view">
+      <button class="back-btn" onclick="showView('staffDashboard')">← Back to Staff Dashboard</button>
+      <div class="login-card">
+        <h2>Add Employee</h2>
+        <p style="color:#666;margin:8px 0 14px;">Managers can create staff logins after the store login is created.</p>
+        <label>Employee Name</label>
+        <input id="employeeName" placeholder="Employee name" />
+        <label>Email / Username</label>
+        <input id="employeeEmail" placeholder="employee@email.com" />
+        <label>Temporary Password</label>
+        <input id="employeePassword" type="password" placeholder="Temporary password" />
+        <label>Role</label>
+        <select id="employeeRole"><option>Staff</option><option>Manager</option></select>
+        <button class="submit-btn" onclick="addEmployeeDemo()">Create Employee Login</button>
+        <div id="employeeCreated" class="ticket-box"></div>
+      </div>
+      <div class="panel-card">
+        <h3>Demo Employee Accounts</h3>
+        <div id="employeeList" class="manager-list"></div>
+      </div>
+    </section>
+
+    <section id="menuAvailability" class="view">
+      <button class="back-btn" onclick="showView('staffDashboard')">← Back to Staff Dashboard</button>
+      <h2 class="section-title">Edit Menu Availability</h2>
+      <div class="panel-card">
+        <p style="color:#666;">Managers can mark items sold out during service.</p>
+        <div class="manager-list" id="availabilityList"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Joe's Foodtruck is a demo business used to show TheWardenBot ordering, staff, manager, KDS, and printer logic.</footer>
+
+  <script>
+    const modValues = ['Regular', 'Extra', 'None'];
+    const drinkList = ['Coke', 'Diet Coke', 'Sprite', 'Dr Pepper', 'Mountain Dew', 'Root Beer', 'Lemonade', 'Sweet Tea', 'Unsweet Tea', 'Water'];
+    const imageMap = {
+      'Classic Smash Burger':'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
+      'Bacon BBQ Burger':'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80',
+      'Crispy Chicken Sandwich':'https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=800&q=80',
+      'Buffalo Chicken Wrap':'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=800&q=80',
+      'Loaded Street Tacos':'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?auto=format&fit=crop&w=800&q=80',
+      'Philly Cheesesteak':'https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=800&q=80',
+      'Pulled Pork Sandwich':'https://images.unsplash.com/photo-1512152272829-e3139592d56f?auto=format&fit=crop&w=800&q=80',
+      'Loaded Nachos':'https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=800&q=80',
+      'Chicken Quesadilla':'https://images.unsplash.com/photo-1618040996337-56904b7850b9?auto=format&fit=crop&w=800&q=80',
+      'Foodtruck Combo Basket':'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=800&q=80',
+      'Seasoned Fries':'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80',
+      'Onion Rings':'https://images.unsplash.com/photo-1639024471283-03518883512d?auto=format&fit=crop&w=800&q=80',
+      'Mozzarella Sticks':'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=800&q=80',
+      'Mac Bites':'https://images.unsplash.com/photo-1543332164-6e82f355badc?auto=format&fit=crop&w=800&q=80'
+    };
     const mains = [
       { name: 'Classic Smash Burger', price: 10.99, desc: 'Beef patty, cheese, pickles, onions, house sauce.', mods: ['Onions', 'Pickles', 'Cheese', 'Sauce'] },
       { name: 'Bacon BBQ Burger', price: 12.49, desc: 'Bacon, cheddar, BBQ sauce, crispy onions.', mods: ['Onions', 'Cheese', 'BBQ Sauce', 'Bacon'] },
@@ -112,187 +253,209 @@
       { name: 'Chicken Quesadilla', price: 9.49, desc: 'Grilled tortilla, chicken, cheese, salsa.', mods: ['Cheese', 'Salsa', 'Sour Cream', 'Jalapenos'] },
       { name: 'Foodtruck Combo Basket', price: 13.99, desc: 'Choice of main, side, and drink.', mods: ['Sauce', 'Cheese', 'Onions', 'Pickles'] }
     ];
-
     const sides = [
       { name: 'Seasoned Fries', price: 3.50, desc: 'Crispy fries with house seasoning.', mods: ['Salt', 'Seasoning'] },
       { name: 'Onion Rings', price: 4.25, desc: 'Golden fried onion rings.', mods: ['Salt', 'Sauce'] },
       { name: 'Mozzarella Sticks', price: 5.25, desc: 'Fried mozzarella with marinara.', mods: ['Marinara', 'Seasoning'] },
       { name: 'Mac Bites', price: 4.75, desc: 'Crispy mac and cheese bites.', mods: ['Salt', 'Sauce'] }
     ];
-
-    const drinks = [
-      'Coke', 'Diet Coke', 'Sprite', 'Dr Pepper', 'Mountain Dew',
-      'Root Beer', 'Lemonade', 'Sweet Tea', 'Unsweet Tea', 'Water'
-    ].map(name => ({ name, price12: 2.00, price20: 3.00 }));
-
     let cart = [];
+    let kdsLastTicket = '';
+    let storeSetup = JSON.parse(localStorage.getItem('storeSetup') || 'null');
+    let employees = JSON.parse(localStorage.getItem('employees') || '[]');
 
     function money(value) { return '$' + value.toFixed(2); }
-
-    function modSelect(itemName, mod) {
+    function cssId(text) { return text.replace(/[^a-zA-Z0-9]/g, ''); }
+    function refreshAuthUI() {
+      const firstSetup = document.getElementById('firstSetupCard');
+      const login = document.getElementById('loginCard');
+      if (!firstSetup || !login) return;
+      if (storeSetup) { firstSetup.style.display = 'none'; login.style.display = 'block'; }
+      else { firstSetup.style.display = 'block'; login.style.display = 'none'; }
+      renderEmployees();
+    }
+    function completeFirstSetup() {
+      const storeName = document.getElementById('setupStoreName').value.trim() || 'Joe\'s Foodtruck';
+      const managerName = document.getElementById('setupManagerName').value.trim() || 'Demo Manager';
+      const email = document.getElementById('setupEmail').value.trim() || 'manager@joesfoodtruck.com';
+      const password = document.getElementById('setupPassword').value.trim() || 'demo123';
+      storeSetup = { storeName, managerName, email, password, role: 'Manager' };
+      localStorage.setItem('storeSetup', JSON.stringify(storeSetup));
+      document.getElementById('loginEmail').value = email;
+      alert('Store manager login created. You can now log in and add employees.');
+      refreshAuthUI();
+    }
+    function demoLogin() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      const employeeMatch = employees.find(e => e.email === email && e.password === password);
+      if ((storeSetup && email === storeSetup.email && password === storeSetup.password) || employeeMatch) showView('staffDashboard');
+      else alert('Demo login failed. Use the manager login you created or an employee account.');
+    }
+    function resetDemoSetup() {
+      localStorage.removeItem('storeSetup');
+      localStorage.removeItem('employees');
+      storeSetup = null;
+      employees = [];
+      refreshAuthUI();
+      alert('Demo setup reset. You can create a new store login.');
+    }
+    function addEmployeeDemo() {
+      const name = document.getElementById('employeeName').value.trim() || 'Demo Employee';
+      const email = document.getElementById('employeeEmail').value.trim() || `employee${employees.length + 1}@joesfoodtruck.com`;
+      const password = document.getElementById('employeePassword').value.trim() || 'demo123';
+      const role = document.getElementById('employeeRole').value;
+      employees.push({ name, email, password, role });
+      localStorage.setItem('employees', JSON.stringify(employees));
+      document.getElementById('employeeCreated').style.display = 'block';
+      document.getElementById('employeeCreated').innerHTML = `<strong>Employee Login Created</strong><br>${name}<br>${email}<br>Role: ${role}`;
+      renderEmployees();
+    }
+    function renderEmployees() {
+      const list = document.getElementById('employeeList');
+      if (!list) return;
+      if (!employees.length) { list.innerHTML = '<p style="color:#666;">No employee accounts created yet.</p>'; return; }
+      list.innerHTML = employees.map(e => `<div class="availability-row"><div><strong>${e.name}</strong><br><span style="color:#666;font-size:13px;">${e.email} • ${e.role}</span></div><button class="available">Active</button></div>`).join('');
+    }
+    function showView(id) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+    function openCategory(type) {
+      const title = type === 'mains' ? 'Main Items' : type === 'sides' ? 'Sides' : 'Drinks';
+      document.getElementById('categoryTitle').textContent = title;
+      const box = document.getElementById('categoryItems');
+      if (type === 'mains') box.innerHTML = mains.map(item => renderFoodCard(item, 'main')).join('');
+      if (type === 'sides') box.innerHTML = sides.map(item => renderFoodCard(item, 'side')).join('');
+      if (type === 'drinks') box.innerHTML = renderDrinkCard();
+      showView('categoryView');
+    }
+    function setModifier(btn, itemName, mod, value) {
+      const group = document.querySelectorAll(`[data-group="${cssId(itemName + mod)}"]`);
+      group.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      btn.parentElement.setAttribute('data-value', value);
+    }
+    function renderModifier(itemName, mod) {
+      const gid = cssId(itemName + mod);
       return `
-        <label>${mod}</label>
-        <select id="${cssId(itemName + mod)}">
-          ${modifierOptions.map(o => `<option value="${o}" ${o === 'Normal' ? 'selected' : ''}>${o}</option>`).join('')}
-        </select>
+        <div class="modifier">
+          <label>${mod}</label>
+          <div class="touch-options" id="${gid}" data-value="Regular">
+            ${modValues.map(v => `<button type="button" data-group="${gid}" class="touch-option ${v === 'Regular' ? 'active' : ''}" onclick="setModifier(this, '${itemName.replace(/'/g, "\\'")}', '${mod.replace(/'/g, "\\'")}', '${v}')">${v}</button>`).join('')}
+          </div>
+        </div>
       `;
     }
-
-    function cssId(text) {
-      return text.replace(/[^a-zA-Z0-9]/g, '');
-    }
-
-    function renderMenu() {
-      document.getElementById('mainItems').innerHTML = mains.map(item => renderFoodCard(item, 'main')).join('');
-      document.getElementById('sideItems').innerHTML = sides.map(item => renderFoodCard(item, 'side')).join('');
-      document.getElementById('drinkItems').innerHTML = drinks.map(item => renderDrinkCard(item)).join('');
-    }
-
     function renderFoodCard(item, type) {
       const id = cssId(item.name);
       return `
         <div class="card">
+          <img src="${imageMap[item.name]}" alt="${item.name}" style="width:100%;height:170px;object-fit:cover;border-radius:12px;margin-bottom:12px;">
           <h3>${item.name}</h3>
           <div class="price">${money(item.price)}</div>
           <p class="desc">${item.desc}</p>
-          <div class="selector-row">
-            ${item.mods.map(mod => `<div>${modSelect(item.name, mod)}</div>`).join('')}
-          </div>
+          ${item.mods.map(mod => renderModifier(item.name, mod)).join('')}
           <label>Additional Side Request</label>
           <select id="sideReq${id}">
             <option value="None" selected>No extra side</option>
             ${sides.map(side => `<option value="${side.name}">${side.name} +${money(side.price)}</option>`).join('')}
           </select>
           <label>Special Request</label>
-          <textarea id="note${id}" placeholder="Example: sauce on side, extra crispy, allergy note"></textarea><button class="add-btn" onclick="addFoodItem('${type}', '${item.name.replace(/'/g, "\\'")}')">Add to Order</button>
-    </div>
-  `;
-}
-
-function renderDrinkCard(item) {
-  const id = cssId(item.name);
-  return `
-    <div class="card">
-      <h3>${item.name}</h3>
-      <div class="price">12oz ${money(item.price12)} / 20oz ${money(item.price20)}</div>
-      <p class="desc">Choose only 12oz or 20oz for drink size.</p>
-      <label>Size</label>
-      <select id="drinkSize${id}">
-        <option value="12oz" selected>12oz</option>
-        <option value="20oz">20oz</option>
-      </select>
-      <label>Ice</label>
-      <select id="ice${id}">
-        <option value="Normal" selected>Normal</option>
-        <option value="Extra">Extra</option>
-        <option value="Light">Light</option>
-        <option value="None">None</option>
-      </select>
-      <button class="add-btn" onclick="addDrink('${item.name}')">Add Drink</button>
-    </div>
-  `;
-}
-
-function findFood(name) {
-  return [...mains, ...sides].find(i => i.name === name);
-}
-
-function addFoodItem(type, name) {
-  const item = findFood(name);
-  const id = cssId(name);
-  const mods = {};
-  item.mods.forEach(mod => {
-    const val = document.getElementById(cssId(name + mod)).value;
-    if (val !== 'Normal') mods[mod] = val;
-  });
-
-  const sideReq = document.getElementById('sideReq' + id).value;
-  const sideItem = sides.find(s => s.name === sideReq);
-  const note = document.getElementById('note' + id).value.trim();
-  const extraCost = sideItem ? sideItem.price : 0;
-
-  cart.push({ type, name, price: item.price + extraCost, mods, sideReq, note });
-  updateCart();
-}
-
-function addDrink(name) {
-  const drink = drinks.find(d => d.name === name);
-  const id = cssId(name);
-  const size = document.getElementById('drinkSize' + id).value;
-  const ice = document.getElementById('ice' + id).value;
-  const price = size === '20oz' ? drink.price20 : drink.price12;
-  const mods = ice !== 'Normal' ? { Ice: ice } : {};
-  cart.push({ type: 'drink', name: `${name} (${size})`, price, mods, sideReq: 'None', note: '' });
-  updateCart();
-}
-
-function updateCart() {
-  const cartBox = document.getElementById('cartItems');
-  if (cart.length === 0) {
-    cartBox.className = 'cart-empty';
-    cartBox.innerHTML = 'No items added yet.';
-  } else {
-    cartBox.className = '';
-    cartBox.innerHTML = cart.map(item => {
-      const modText = Object.keys(item.mods).length ? Object.entries(item.mods).map(([k,v]) => `${k}: ${v}`).join(', ') : 'No changes';
-      const sideText = item.sideReq && item.sideReq !== 'None' ? `Extra side: ${item.sideReq}` : '';
-      const noteText = item.note ? `Note: ${item.note}` : '';
-      return `
-        <div class="cart-item">
-          <strong>${item.name} - ${money(item.price)}</strong>
-          <div class="cart-small">${modText}</div>
-          ${sideText ? `<div class="cart-small">${sideText}</div>` : ''}
-          ${noteText ? `<div class="cart-small">${noteText}</div>` : ''}
+          <textarea id="note${id}" placeholder="Example: sauce on side, extra crispy, allergy note"></textarea>
+          <button class="add-btn" onclick="addFoodItem('${type}', '${item.name.replace(/'/g, "\\'")}')">Add to Order</button>
         </div>
       `;
-    }).join('');
-  }
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
-  document.getElementById('cartTotal').textContent = money(total);
-}
-
-function clearCart() {
-  cart = [];
-  updateCart();
-  document.getElementById('ticketBox').style.display = 'none';
-  document.getElementById('kdsPreview').textContent = 'No active demo ticket yet.';
-}
-
-function submitOrder() {
-  if (cart.length === 0) {
-    alert('Add at least one item first.');
-    return;
-  }
-
-  const ticket = 'JF-' + Math.floor(1000 + Math.random() * 9000);
-  const name = document.getElementById('customerName').value.trim() || 'Demo Customer';
-  const phone = document.getElementById('customerPhone').value.trim() || '0000';
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
-
-  document.getElementById('ticketBox').style.display = 'block';
-  document.getElementById('ticketBox').innerHTML = `
-    <strong>Order Received</strong><br>
-    Ticket: <strong>${ticket}</strong><br>
-    Name: ${name}<br>
-    Phone Last 4: ${phone}<br>
-    Total: ${money(total)}<br>
-    Status: Received
-  `;
-
-  document.getElementById('kdsPreview').innerHTML = `
-    <strong>${ticket} - ${name}</strong><br><br>
-    ${cart.map(item => {
-      const mods = Object.keys(item.mods).length ? '<br>' + Object.entries(item.mods).map(([k,v]) => `${k}: ${v}`).join('<br>') : '';
-      const side = item.sideReq && item.sideReq !== 'None' ? `<br>Extra Side: ${item.sideReq}` : '';
-      const note = item.note ? `<br>NOTE: ${item.note}` : '';
-      return `${item.name}${mods}${side}${note}`;
-    }).join('<br><br>')}
-  `;
-}
-
-renderMenu();
-updateCart();
-
+    }
+    function renderDrinkCard() {
+      return `
+        <div class="card">
+          <h3>Fountain Drink</h3>
+          <div class="price">12oz $2.00 / 20oz $3.00</div>
+          <p class="desc">Choose your drink and size.</p>
+          <label>Drink</label>
+          <select id="drinkChoice">${drinkList.map(d => `<option>${d}</option>`).join('')}</select>
+          <label>Size</label>
+          <select id="drinkSize"><option value="12oz">12oz</option><option value="20oz">20oz</option></select>
+          ${renderModifier('Fountain Drink', 'Ice')}
+          <button class="add-btn" onclick="addDrink()">Add Drink</button>
+        </div>
+      `;
+    }
+    function findFood(name) { return [...mains, ...sides].find(i => i.name === name); }
+    function addFoodItem(type, name) {
+      const item = findFood(name);
+      const id = cssId(name);
+      const mods = {};
+      item.mods.forEach(mod => {
+        const val = document.getElementById(cssId(name + mod)).getAttribute('data-value') || 'Regular';
+        if (val !== 'Regular') mods[mod] = val;
+      });
+      const sideReq = document.getElementById('sideReq' + id).value;
+      const sideItem = sides.find(s => s.name === sideReq);
+      const note = document.getElementById('note' + id).value.trim();
+      const extraCost = sideItem ? sideItem.price : 0;
+      cart.push({ type, name, price: item.price + extraCost, mods, sideReq, note });
+      updateCart();
+    }
+    function addDrink() {
+      const drink = document.getElementById('drinkChoice').value;
+      const size = document.getElementById('drinkSize').value;
+      const ice = document.getElementById(cssId('Fountain DrinkIce')).getAttribute('data-value') || 'Regular';
+      const price = size === '20oz' ? 3.00 : 2.00;
+      const mods = ice !== 'Regular' ? { Ice: ice } : {};
+      cart.push({ type: 'drink', name: `${drink} (${size})`, price, mods, sideReq: 'None', note: '' });
+      updateCart();
+    }
+    function updateCart() {
+      const cartBox = document.getElementById('cartItems');
+      if (cart.length === 0) {
+        cartBox.className = 'cart-empty';
+        cartBox.innerHTML = 'No items added yet.';
+      } else {
+        cartBox.className = '';
+        cartBox.innerHTML = cart.map(item => {
+          const modText = Object.keys(item.mods).length ? Object.entries(item.mods).map(([k,v]) => `${k}: ${v}`).join(', ') : 'No changes';
+          const sideText = item.sideReq && item.sideReq !== 'None' ? `Extra side: ${item.sideReq}` : '';
+          const noteText = item.note ? `Note: ${item.note}` : '';
+          return `<div class="cart-item"><strong>${item.name} - ${money(item.price)}</strong><div class="cart-small">${modText}</div>${sideText ? `<div class="cart-small">${sideText}</div>` : ''}${noteText ? `<div class="cart-small">${noteText}</div>` : ''}</div>`;
+        }).join('');
+      }
+      document.getElementById('cartTotal').textContent = money(cart.reduce((sum, item) => sum + item.price, 0));
+    }
+    function clearCart() {
+      cart = [];
+      updateCart();
+      document.getElementById('ticketBox').style.display = 'none';
+    }
+    function submitOrder() {
+      if (cart.length === 0) return alert('Add at least one item first.');
+      const ticket = 'JF-' + Math.floor(1000 + Math.random() * 9000);
+      const name = document.getElementById('customerName').value.trim() || 'Demo Customer';
+      const phone = document.getElementById('customerPhone').value.trim() || '0000';
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById('ticketBox').style.display = 'block';
+      document.getElementById('ticketBox').innerHTML = `<strong>Order Received</strong><br>Ticket: <strong>${ticket}</strong><br>Name: ${name}<br>Phone Last 4: ${phone}<br>Total: ${money(total)}<br>Status: Received`;
+      kdsLastTicket = `<div class="kds-card"><strong>${ticket} - ${name}</strong><br><br>${cart.map(item => {
+        const mods = Object.keys(item.mods).length ? '<br>' + Object.entries(item.mods).map(([k,v]) => `${k}: ${v}`).join('<br>') : '';
+        const side = item.sideReq && item.sideReq !== 'None' ? `<br>Extra Side: ${item.sideReq}` : '';
+        const note = item.note ? `<br>NOTE: ${item.note}` : '';
+        return `${item.name}${mods}${side}${note}`;
+      }).join('<br><br>')}</div>`;
+      document.getElementById('kdsNew').innerHTML = kdsLastTicket;
+    }
+    function renderAvailability() {
+      const all = [...mains, ...sides, { name: 'Fountain Drink', price: 0 }];
+      document.getElementById('availabilityList').innerHTML = all.map((item, index) => `<div class="availability-row"><strong>${item.name}</strong><button class="available" onclick="toggleAvailability(this)">Available</button></div>`).join('');
+    }
+    function toggleAvailability(btn) {
+      if (btn.textContent === 'Available') { btn.textContent = 'Sold Out'; btn.className = 'soldout'; }
+      else { btn.textContent = 'Available'; btn.className = 'available'; }
+    }
+    renderAvailability();
+    updateCart();
+    refreshAuthUI();
   </script>
 </body>
 </html>
