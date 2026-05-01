@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OrderFlow | Order History</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1>Order History</h1>
+      <p>All customer and staff orders</p>
+    </div>
+
+    <div class="header-actions">
+      <a class="small-btn" href="manager.html">Manager</a>
+      <button class="small-btn danger" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="auth-card">
+    <h2>Orders</h2>
+
+    <div id="ordersContainer"></div>
+  </section>
+</main>
+
+<footer>
+  OrderFlow Systems
+</footer>
+
+<script src="js/auth-check.js"></script>
+<script src="js/orders.js"></script>
+
+</body>
+</html>

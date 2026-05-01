@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Confirmed</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <h1>Joe's Foodtruck</h1>
+        <p>Order Confirmation</p>
+      </div>
+
+      <div class="header-actions">
+        <a class="small-btn" href="index.html">Menu</a>
+        <a id="trackOrderBtn" href="track.html" class="submit-btn">Track Order</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="confirmation-card">
+      <h1>Order Confirmed ✅</h1>
+      <p id="orderMessage"></p>
+
+      <div id="orderDetails"></div>
+
+      <div class="confirmation-actions">
+        <a href="track.html" class="submit-btn">Track Order</a>
+        <a href="index.html" class="clear-btn">Back to Menu</a>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get("id");
+
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const order = orders.find(o => o.id == orderId);
+
+    const messageEl = document.getElementById("orderMessage");
+    const detailsEl = document.getElementById("orderDetails");
+
+    if (!order) {
+      messageEl.innerText = "Order not found.";
+    } else {
+      messageEl.innerText = `Thanks ${order.name}! Your order has been received.`;
+      
+      document.getElementById("trackOrderBtn").style.display = "block";
+
+      const itemsHtml = order.items.map(item => `
+        <li>${item.qty}x ${item.name} - $${(item.price * item.qty).toFixed(2)}</li>
+      `).join("");
+
+      detailsEl.innerHTML = `
+        <h3>Order #${order.id}</h3>
+        <p><strong>Time:</strong> ${order.time}</p>
+        <p><strong>Payment:</strong> ${formatPayment(order.payment)}</p>
+
+        <ul class="confirmation-items">
+          ${itemsHtml}
+        </ul>
+
+        <div class="confirmation-total">
+          <strong>Total: $${order.total.toFixed(2)}</strong>
+        </div>
+      `;
+    }
+
+    function formatPayment(payment) {
+      if (payment === "pay-at-pickup") return "Pay at Pickup";
+      if (payment === "paypal") return "PayPal Demo";
+      return payment;
+    }
+  </script>
+
+</body>
+</html>

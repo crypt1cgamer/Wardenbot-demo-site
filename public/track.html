@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow Demo | Track Order</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <h1>Joe's Foodtruck</h1>
+        <p>Track your pickup order</p>
+      </div>
+
+      <div class="header-actions">
+        <a class="small-btn" href="index.html">Menu</a>
+        <a class="small-btn" href="checkout.html">Order Now</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="checkout-card track-card">
+      <h2>Find Your Order</h2>
+
+      <label class="form-label">
+        Order Number
+        <input type="text" id="trackOrderId" placeholder="Enter order number">
+      </label>
+
+      <button class="submit-btn" onclick="trackOrder()">Track Order</button>
+
+      <div id="trackResult" class="track-result"></div>
+    </section>
+  </main>
+
+  <footer>
+    OrderFlow Systems Demo Order Tracking
+  </footer>
+
+  <script src="js/track.js"></script>
+</body>
+</html>

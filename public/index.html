@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow Demo | Food Truck Website</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <h1>Joe's Foodtruck</h1>
+        <p>Fresh food ordered fast. Powered by OrderFlow Systems.</p>
+      </div>
+
+      <div class="header-actions">
+        <a class="small-btn primary" href="checkout.html">Order Now</a>
+        <a class="small-btn" href="track.html">Track Order</a>
+        <a class="small-btn" href="staff.html">STAFF</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h2>Food Truck Online Ordering Demo</h2>
+    <p>
+      A clean demo website showing how customers can view a full menu,
+      place pickup orders, and track their order status.
+    </p>
+
+    <a class="submit-btn hero-order-btn" href="checkout.html">ORDER NOW</a>
+  </section>
+
+  <main class="container">
+    <section class="menu-section">
+      <h2 class="section-title">Full Menu</h2>
+      <div class="landing-menu" id="fullMenu"></div>
+    </section>
+  </main>
+
+  <footer>
+    Joe's Foodtruck is a demo business used to show OrderFlow Systems customer ordering.
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script>
+    const fullMenu = document.getElementById("fullMenu");
+  
+    const allItems = [
+      ...(menuData.mains || []),
+      ...(menuData.sides || []),
+      ...(menuData.drinks || [])
+    ];
+  
+    allItems.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "landing-menu-item";
+  
+      div.innerHTML = `
+        <img class="landing-menu-img" src="${imageMap[item.name] || 'images/placeholder.jpg'}" alt="${item.name}">
+  
+        <div class="landing-menu-content">
+          <h3>${item.name}</h3>
+          <p>${item.description || ""}</p>
+        </div>
+  
+        <strong>$${item.price.toFixed(2)}</strong>
+      `;
+  
+      fullMenu.appendChild(div);
+    });
+  </script>
+</body>
+</html>

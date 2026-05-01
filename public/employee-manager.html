@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OrderFlow | Employee Manager</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1>Employee Manager</h1>
+      <p>Add employees and assign roles</p>
+    </div>
+
+    <div class="header-actions">
+      <a class="small-btn" href="manager.html">Manager Dashboard</a>
+      <button class="small-btn danger" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="auth-card">
+    <h2>Add Employee</h2>
+    <p class="muted-text">Demo users are saved in localStorage.</p>
+
+    <form id="employeeForm">
+      <label class="form-label">
+        Employee Name
+        <input type="text" id="employeeName" required placeholder="John Smith" />
+      </label>
+
+      <label class="form-label">
+        Username
+        <input type="text" id="employeeUsername" required placeholder="john" />
+      </label>
+
+      <label class="form-label">
+        Password
+        <input type="password" id="employeePassword" required placeholder="Temporary password" />
+      </label>
+
+      <label class="form-label">
+        Role
+        <select id="employeeRole" required>
+          <option value="staff">Staff</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="manager">Manager</option>
+        </select>
+      </label>
+
+      <button class="submit-btn" type="submit">Add Employee</button>
+    </form>
+
+    <p id="employeeMessage" class="muted-text" style="margin-top:12px;"></p>
+  </section>
+
+  <section class="auth-card" style="margin-top:25px;">
+    <h2>Current Employees</h2>
+    <div id="employeeList"></div>
+  </section>
+</main>
+
+<footer>
+  OrderFlow Systems Employee Manager
+</footer>
+
+<script src="js/auth-check.js"></script>
+<script src="js/employee-manager.js"></script>
+
+</body>
+</html>

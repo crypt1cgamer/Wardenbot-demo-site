@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow Demo | Order Now</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <h1>Joe's Foodtruck</h1>
+        <p>Place your pickup order</p>
+      </div>
+
+      <div class="header-actions">
+        <a class="small-btn" href="index.html">Menu</a>
+        <a class="small-btn" href="track.html">Track Order</a>
+        <a class="small-btn" href="kds.html">KDS</a>
+        <a class="small-btn" href="staff.html">STAFF</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h2>Order Now</h2>
+    <p>Select your items, review your cart, then place your pickup order.</p>
+  </section>
+
+  <main class="container">
+    <div class="layout">
+      <section class="menu-section">
+        <h2 class="section-title">Menu Items</h2>
+        <div class="menu-grid" id="menuItems"></div>
+      </section>
+
+      <aside class="cart">
+        <h2>Your Order</h2>
+
+        <div id="cartItems" class="cart-empty">No items added yet.</div>
+
+        <div class="cart-total">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">$0.00</span>
+        </div>
+
+        <div class="cart-total muted">
+          <span>Tax</span>
+          <span id="cartTax">$0.00</span>
+        </div>
+
+        <div class="cart-total muted" id="tipTotalRow" style="display:none;">
+          <span>Tip</span>
+          <span id="cartTip">$0.00</span>
+        </div>
+
+        <div class="cart-total grand-total">
+          <span>Total</span>
+          <span id="cartTotal">$0.00</span>
+        </div>
+
+        <hr>
+
+        <form id="checkoutForm" onsubmit="submitOrder(event)">
+          <label class="form-label">
+            Pickup Name
+            <input type="text" id="pickupName" required placeholder="Enter pickup name">
+          </label>
+
+          <label class="form-label">
+            Phone Number
+            <input type="tel" id="phoneNumber" required placeholder="Enter phone number">
+          </label>
+
+          <label class="form-label">
+            Payment Method
+            <select id="paymentMethod" required>
+              <option value="pay-at-pickup">Pay at Pickup</option>
+              <option value="paypal">PayPal Demo</option>
+            </select>
+          </label>
+          
+          <!-- 👇 ADD THIS RIGHT HERE -->
+          <div id="tipBox" style="display:none; margin-top:10px;">
+            <p class="muted-text">Add a tip</p>
+          
+            <div class="tip-buttons">
+              <button type="button" onclick="setTipPercent(10)">10%</button>
+              <button type="button" onclick="setTipPercent(15)">15%</button>
+              <button type="button" onclick="setTipPercent(20)">20%</button>
+              <button type="button" onclick="setTipPercent(0)">No Tip</button>
+            </div>
+          
+            <p id="tipDisplay" class="muted-text" style="margin-top:6px;"></p>
+          </div>
+
+          <label class="form-label">
+            Notes
+            <textarea id="orderNotes" rows="3" placeholder="Special instructions"></textarea>
+          </label>
+
+          <button class="submit-btn" type="submit">Place Order</button>
+          <button class="clear-btn" type="button" onclick="clearCart()">Clear Order</button>
+        </form>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    Joe's Foodtruck is a demo business used to show OrderFlow Systems customer ordering.
+  </footer>
+
+  <div id="itemModal" class="modal hidden">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeItemModal()">×</button>
+  
+      <img id="modalImage" class="modal-img" src="" alt="Menu item">
+  
+      <h2 id="modalName"></h2>
+      <p id="modalDesc"></p>
+      <strong id="modalPrice"></strong>
+  
+      <label class="form-label">
+        Customization
+        <select id="modalModifier">
+          <option value="Regular">Regular</option>
+          <option value="Extra">Extra</option>
+          <option value="None">None</option>
+        </select>
+      </label>
+  
+      <label class="form-label hidden" id="drinkChoiceWrap">
+        Drink Choice
+        <select id="modalDrink"></select>
+      </label>
+  
+      <label class="form-label">
+        Item Notes
+        <textarea id="modalNotes" rows="3" placeholder="No onions, extra sauce, etc."></textarea>
+      </label>
+  
+      <button class="submit-btn" onclick="addCustomizedItem()">Add to Order</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

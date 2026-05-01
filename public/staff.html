@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow Demo | Staff Login</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <h1>Joe's Foodtruck</h1>
+        <p>Staff Login</p>
+      </div>
+
+      <div class="header-actions">
+        <a class="small-btn" href="index.html">Customer Order</a>
+        <a class="small-btn" href="track.html">Track Order</a>
+        <a class="small-btn primary" href="staff.html">STAFF</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container auth-container">
+    <section class="auth-card">
+      <h2>Staff Login</h2>
+      <p class="muted-text">Login to access staff ordering, kitchen orders, and manager controls.</p>
+
+      <form id="staffLoginForm" onsubmit="staffLogin(event)">
+        <label class="form-label">
+          Username
+          <input type="text" id="staffUsername" required placeholder="Enter username" />
+        </label>
+
+        <label class="form-label">
+          Password
+          <input type="password" id="staffPassword" required placeholder="Enter password" />
+        </label>
+
+        <button class="submit-btn" type="submit">Login</button>
+      </form>
+
+      <div class="auth-actions">
+        <p class="muted-text">Demo setup not created yet?</p>
+        <a class="small-btn" href="create-user.html">Create First Manager User</a>
+      </div>
+
+      <div class="demo-login-box">
+        <h3>Demo Login Info</h3>
+        <p><strong>Manager:</strong> admin</p>
+        <p><strong>Password:</strong> admin123</p>
+        <p class="muted-text">You can change this later when we connect the real database.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Joe's Foodtruck is a demo business used to show OrderFlow Systems customer ordering.
+  </footer>
+
+  <script src="js/staff-login.js"></script>
+</body>
+</html>

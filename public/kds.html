@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow Demo | KDS</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <h1>Kitchen Display</h1>
+        <p>Live order screen for Joe's Foodtruck</p>
+      </div>
+
+      <div class="header-actions">
+        <a class="small-btn" href="index.html">Menu</a>
+        <a class="small-btn" href="staff.html">Staff</a>
+        <button class="small-btn primary" onclick="refreshOrders()">Refresh</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="kds-screen">
+    <aside class="kds-sidebar">
+      <div class="kds-count">
+        <strong id="openOrderCount">0</strong>
+        <span>OPEN</span>
+      </div>
+  
+      <button onclick="refreshOrders()">Refresh</button>
+      <button onclick="filterOrders('all')">All</button>
+      <button onclick="filterOrders('pending')">New</button>
+      <button onclick="filterOrders('preparing')">Preparing</button>
+      <button onclick="filterOrders('ready')">Ready</button>
+    </aside>
+  
+    <section id="kdsOrders" class="kds-board">
+      No active orders.
+    </section>
+  </main>
+
+  <footer>
+    OrderFlow Systems Demo KDS
+  </footer>
+
+  <script src="js/kds.js"></script>
+</body>
+</html>
