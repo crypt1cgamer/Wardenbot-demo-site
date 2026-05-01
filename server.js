@@ -1,17 +1,17 @@
-const express = require('express');
-const path = require('path');
+const express = require("express");
+const path = require("path");
 
 const app = express();
-const PORT = 3000;
 
-// Serve all frontend files from /public
-app.use(express.static(path.join(__dirname, 'public')));
+// Railway provides PORT, local falls back to 8080
+const PORT = process.env.PORT || 8080;
 
-// Optional: fallback to index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`🔥 OrderFlow running at http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`OrderFlow running on port ${PORT}`);
 });
