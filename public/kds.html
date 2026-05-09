@@ -6,6 +6,9 @@
   <title>OrderFlow Demo | KDS</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
+<button onclick="logout()">Logout</button>
+
 <body>
 
   <header class="site-header">
@@ -41,6 +44,11 @@
       No active orders.
     </section>
   </main>
+
+  <script src="auth.js"></script>
+<script>
+  requireLogin();
+</script>
 
   <footer>
     OrderFlow Systems Demo KDS

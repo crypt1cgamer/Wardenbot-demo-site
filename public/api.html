@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OrderFlow API Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #ff4b1f;
+    }
+
+    button {
+      background: #ff4b1f;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      margin: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      width: 250px;
+      margin: 6px;
+    }
+
+    pre {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>OrderFlow API Test Page</h1>
+
+  <p>Use this page to test your live database connection.</p>
+
+  <input id="slug" value="cali" placeholder="Business slug" />
+
+  <br />
+
+  <button onclick="testHealth()">Test Health</button>
+  <button onclick="testBusiness()">Test Business</button>
+  <button onclick="testMenu()">Test Menu</button>
+
+  <h2>Result</h2>
+  <pre id="result">Waiting...</pre>
+
+  <script>
+    let currentBusiness = null;
+
+    function show(data) {
+      document.getElementById("result").textContent =
+        JSON.stringify(data, null, 2);
+    }
+
+    async function testHealth() {
+      try {
+        const res = await fetch("/api/health");
+        const data = await res.json();
+        show(data);
+      } catch (err) {
+        show({ error: err.message });
+      }
+    }
+
+    async function testBusiness() {
+      try {
+        const slug = document.getElementById("slug").value.trim();
+
+        const res = await fetch(`/api/business/${slug}`);
+        const data = await res.json();
+
+        currentBusiness = data;
+
+        show(data);
+      } catch (err) {
+        show({ error: err.message });
+      }
+    }
+
+    async function testMenu() {
+      try {
+        if (!currentBusiness || !currentBusiness.id) {
+          await testBusiness();
+        }
+
+        if (!currentBusiness || !currentBusiness.id) {
+          show({ error: "No business loaded." });
+          return;
+        }
+
+        const res = await fetch(`/api/menu/${currentBusiness.id}`);
+        const data = await res.json();
+
+        show(data);
+      } catch (err) {
+        show({ error: err.message });
+      }
+    }
+  </script>
+
+</body>
+</html>

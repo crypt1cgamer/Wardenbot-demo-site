@@ -6,6 +6,9 @@
   <title>OrderFlow | Business Settings</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
+<button onclick="logout()">Logout</button>
+
 <body>
 
 <header class="site-header">
@@ -60,6 +63,10 @@
   </section>
 </main>
 
+<script src="auth.js"></script>
+<script>
+  requireLogin();
+</script>
 <footer>
   OrderFlow Systems Business Settings
 </footer>

@@ -6,6 +6,9 @@
   <title>OrderFlow Demo | Staff Login</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
+<button onclick="logout()">Logout</button>
+
 <body>
   <header class="site-header">
     <div class="header-inner">
@@ -45,15 +48,14 @@
         <p class="muted-text">Demo setup not created yet?</p>
         <a class="small-btn" href="create-user.html">Create First Manager User</a>
       </div>
-
-      <div class="demo-login-box">
-        <h3>Demo Login Info</h3>
-        <p><strong>Manager:</strong> admin</p>
-        <p><strong>Password:</strong> admin123</p>
-        <p class="muted-text">You can change this later when we connect the real database.</p>
-      </div>
+      
     </section>
   </main>
+
+  <script src="auth.js"></script>
+<script>
+  requireLogin();
+</script>
 
   <footer>
     Joe's Foodtruck is a demo business used to show OrderFlow Systems customer ordering.

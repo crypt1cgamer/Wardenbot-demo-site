@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OrderFlow Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="login-page">
+    <div class="login-box">
+      <h1>OrderFlow Login</h1>
+      <p>Staff and manager access only.</p>
+
+      <input id="email" type="email" placeholder="Email" />
+      <input id="password" type="password" placeholder="Password" />
+
+      <button onclick="login()">Login</button>
+
+      <p id="loginMessage"></p>
+    </div>
+  </div>
+
+  <script>
+    async function login() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("loginMessage");
+
+      message.textContent = "Logging in...";
+
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          message.textContent = data.error || "Login failed";
+          return;
+        }
+
+        localStorage.setItem("orderflow_token", data.token);
+        localStorage.setItem("orderflow_user", JSON.stringify(data.user));
+
+        if (data.user.role === "manager" || data.user.role === "admin") {
+          window.location.href = "/manager.html";
+        } else {
+          window.location.href = "/staff.html";
+        }
+      } catch (err) {
+        message.textContent = "Server error. Try again.";
+      }
+    }
+  </script>
+
+</body>
+</html>
