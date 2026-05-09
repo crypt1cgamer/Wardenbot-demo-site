@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Online | CALI Street Tacos</title>
+  <link rel="stylesheet" href="cali.css"/>
+</head>
+<body>
+
+<header class="cali-header">
+  <div class="brand">
+    <div class="logo-main">CALI</div>
+    <div class="logo-sub">Street Tacos</div>
+  </div>
+
+  <nav>
+    <a href="cali.html">Home</a>
+    <a href="#cart" class="order-link">Cart</a>
+  </nav>
+</header>
+
+<script src="cali-data.js"></script>
+<script src="cali-order.js"></script>
+
+<section class="hero small-hero">
+  <div class="hero-content">
+    <h1>Order Online</h1>
+    <p>Fresh street tacos made to order.</p>
+  </div>
+</section>
+
+<div class="order-page">
+
+  <section class="order-menu">
+
+    <div class="order-category">
+      <h2>Birria</h2>
+
+      <div class="order-item">
+        <div>
+          <h3>Queso Birria Tacos</h3>
+          <p>Three tacos with consommé.</p>
+        </div>
+        <button onclick="addItem('Queso Birria Tacos',14)">$14</button>
+      </div>
+
+      <div class="order-item">
+        <div>
+          <h3>Birria Ramen</h3>
+          <p>Ramen with birria consommé.</p>
+        </div>
+        <button onclick="addItem('Birria Ramen',10)">$10</button>
+      </div>
+
+    </div>
+
+    <div class="order-category">
+      <h2>Street Tacos</h2>
+
+      <div class="order-item">
+        <div>
+          <h3>Al Pastor Taco</h3>
+          <p>Pork, pineapple, onion, cilantro.</p>
+        </div>
+        <button onclick="addItem('Al Pastor Taco',2.5)">$2.50</button>
+      </div>
+
+      <div class="order-item">
+        <div>
+          <h3>Carne Asada Taco</h3>
+          <p>Steak, onion, cilantro.</p>
+        </div>
+        <button onclick="addItem('Carne Asada Taco',2.5)">$2.50</button>
+      </div>
+
+      <div class="order-item">
+        <div>
+          <h3>Camaron Taco</h3>
+          <p>Shrimp taco with crema.</p>
+        </div>
+        <button onclick="addItem('Camaron Taco',3)">$3</button>
+      </div>
+
+      <div class="order-item">
+        <div>
+          <h3>Lengua Taco</h3>
+          <p>Beef tongue taco.</p>
+        </div>
+        <button onclick="addItem('Lengua Taco',3)">$3</button>
+      </div>
+
+    </div>
+
+    <div class="order-category">
+      <h2>Quesadillas</h2>
+
+      <div class="order-item">
+        <div>
+          <h3>Carne Asada Quesadilla</h3>
+          <p>Steak and melted cheese.</p>
+        </div>
+        <button onclick="addItem('Carne Asada Quesadilla',8)">$8</button>
+      </div>
+
+      <div class="order-item">
+        <div>
+          <h3>Camaron Quesadilla</h3>
+          <p>Shrimp quesadilla.</p>
+        </div>
+        <button onclick="addItem('Camaron Quesadilla',10)">$10</button>
+      </div>
+
+    </div>
+
+    <div class="order-category">
+      <h2>Burritos / Bowls</h2>
+
+      <div class="order-item">
+        <div>
+          <h3>Carne Asada Burrito</h3>
+          <p>Steak, rice, beans, pico.</p>
+        </div>
+        <button onclick="addItem('Carne Asada Burrito',12)">$12</button>
+      </div>
+
+      <div class="order-item">
+        <div>
+          <h3>Pollo Bowl</h3>
+          <p>Chicken bowl with rice and beans.</p>
+        </div>
+        <button onclick="addItem('Pollo Bowl',12)">$12</button>
+      </div>
+
+    </div>
+
+    <div class="order-category">
+      <h2>Nachos</h2>
+
+      <div class="order-item">
+        <div>
+          <h3>Fully Loaded Nachos</h3>
+          <p>Choice of meat, queso, jalapeños.</p>
+        </div>
+        <button onclick="addItem('Fully Loaded Nachos',10)">$10</button>
+      </div>
+
+    </div>
+
+    <div class="order-category">
+      <h2>Sides</h2>
+
+      <div class="order-item">
+        <div>
+          <h3>Guacamole & Chips</h3>
+          <p>Fresh guacamole and chips.</p>
+        </div>
+        <button onclick="addItem('Guacamole & Chips',6)">$6</button>
+      </div>
+
+      <div class="order-item">
+        <div>
+          <h3>Queso & Chips</h3>
+          <p>Queso blanco with chips.</p>
+        </div>
+        <button onclick="addItem('Queso & Chips',5)">$5</button>
+      </div>
+
+    </div>
+
+    <div class="order-category">
+      <h2>Drinks</h2>
+
+      <div class="order-item">
+        <div>
+          <h3>Mexican Coke</h3>
+          <p>Glass bottle soda.</p>
+        </div>
+        <button onclick="addItem('Mexican Coke',2.5)">$2.50</button>
+      </div>
+
+      <div class="order-item">
+        <div>
+          <h3>Jarritos</h3>
+          <p>Mexican soda.</p>
+        </div>
+        <button onclick="addItem('Jarritos',2.5)">$2.50</button>
+      </div>
+
+    </div>
+
+  </section>
+
+  <aside class="cart-panel" id="cart">
+
+    <h2>Your Order</h2>
+
+    <div id="cartItems"></div>
+
+    <div class="cart-summary">
+      <p>Subtotal: $<span id="subtotal">0.00</span></p>
+      <p>Tax: $<span id="tax">0.00</span></p>
+      <h3>Total: $<span id="total">0.00</span></h3>
+    </div>
+
+    <input type="text" id="customerName" placeholder="Pickup Name"/>
+
+    <select id="paymentMethod">
+      <option value="pickup">Pay at Pickup</option>
+      <option value="paypal">PayPal Demo</option>
+    </select>
+
+    <button class="place-order-btn" onclick="placeOrder()">
+      Place Order
+    </button>
+
+  </aside>
+
+</div>
+
+<script src="cali-order.js"></script>
+
+</body>
+</html>
