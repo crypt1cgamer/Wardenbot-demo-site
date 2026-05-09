@@ -3,64 +3,210 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OrderFlow Demo | Staff Login</title>
+
+  <title>OrderFlow | Staff Dashboard</title>
+
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
-<button onclick="logout()">Logout</button>
-
 <body>
+
   <header class="site-header">
     <div class="header-inner">
+
       <div>
-        <h1>Joe's Foodtruck</h1>
-        <p>Staff Login</p>
+        <h1>OrderFlow Systems</h1>
+        <p>Staff Dashboard</p>
       </div>
 
       <div class="header-actions">
-        <a class="small-btn" href="index.html">Customer Order</a>
-        <a class="small-btn" href="track.html">Track Order</a>
-        <a class="small-btn primary" href="staff.html">STAFF</a>
+        <a class="small-btn" href="index.html">Customer Ordering</a>
+        <a class="small-btn" href="track.html">Track Orders</a>
+        <a class="small-btn" href="kds.html">Kitchen Display</a>
+        <button class="small-btn danger-btn" onclick="logout()">
+          Logout
+        </button>
       </div>
+
     </div>
   </header>
 
-  <main class="container auth-container">
-    <section class="auth-card">
-      <h2>Staff Login</h2>
-      <p class="muted-text">Login to access staff ordering, kitchen orders, and manager controls.</p>
+  <main class="container">
 
-      <form id="staffLoginForm" onsubmit="staffLogin(event)">
-        <label class="form-label">
-          Username
-          <input type="text" id="staffUsername" required placeholder="Enter username" />
-        </label>
+    <section class="dashboard-card">
+      <h2>Logged In Staff User</h2>
 
-        <label class="form-label">
-          Password
-          <input type="password" id="staffPassword" required placeholder="Enter password" />
-        </label>
-
-        <button class="submit-btn" type="submit">Login</button>
-      </form>
-
-      <div class="auth-actions">
-        <p class="muted-text">Demo setup not created yet?</p>
-        <a class="small-btn" href="create-user.html">Create First Manager User</a>
+      <div id="staffInfo" class="staff-info">
+        Loading account...
       </div>
-      
     </section>
+
+    <section class="dashboard-card">
+      <h2>Active Orders</h2>
+
+      <div id="ordersContainer">
+        <p class="muted-text">Loading orders...</p>
+      </div>
+    </section>
+
   </main>
 
-  <script src="auth.js"></script>
-<script>
-  requireLogin();
-</script>
-
   <footer>
-    Joe's Foodtruck is a demo business used to show OrderFlow Systems customer ordering.
+    OrderFlow Systems Demo • Staff Access
   </footer>
 
-  <script src="js/staff-login.js"></script>
+  <script src="/auth.js"></script>
+
+  <script>
+    let currentUser = null;
+
+    async function initPage() {
+      currentUser = await requireLogin();
+
+      if (!currentUser) {
+        return;
+      }
+
+      loadUserInfo();
+      loadOrders();
+    }
+
+    function loadUserInfo() {
+      const staffInfo = document.getElementById("staffInfo");
+
+      staffInfo.innerHTML = `
+        <div class="staff-card">
+          <p><strong>Name:</strong> ${currentUser.name}</p>
+          <p><strong>Email:</strong> ${currentUser.email}</p>
+          <p><strong>Role:</strong> ${currentUser.role}</p>
+        </div>
+      `;
+    }
+
+    async function loadOrders() {
+      const ordersContainer = document.getElementById("ordersContainer");
+
+      try {
+        const token = localStorage.getItem("orderflow_token");
+
+        const res = await fetch("/api/staff/orders", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          ordersContainer.innerHTML = `
+            <p class="error-text">
+              Failed to load orders.
+            </p>
+          `;
+          return;
+        }
+
+        const orders = await res.json();
+
+        if (orders.length === 0) {
+          ordersContainer.innerHTML = `
+            <p class="muted-text">
+              No active orders.
+            </p>
+          `;
+          return;
+        }
+
+        ordersContainer.innerHTML = "";
+
+        orders.forEach(order => {
+          const card = document.createElement("div");
+
+          card.className = "order-card";
+
+          card.innerHTML = `
+            <div class="order-header">
+              <h3>Order #${order.id}</h3>
+              <span class="order-status ${order.status}">
+                ${order.status}
+              </span>
+            </div>
+
+            <p>
+              <strong>Customer:</strong>
+              ${order.customer_name}
+            </p>
+
+            <p>
+              <strong>Total:</strong>
+              $${Number(order.total).toFixed(2)}
+            </p>
+
+            <p>
+              <strong>Payment:</strong>
+              ${order.payment_method}
+            </p>
+
+            <div class="order-actions">
+
+              <button onclick="updateOrderStatus('${order.id}', 'preparing')">
+                Start
+              </button>
+
+              <button onclick="updateOrderStatus('${order.id}', 'ready')">
+                Ready
+              </button>
+
+              <button onclick="updateOrderStatus('${order.id}', 'completed')">
+                Complete
+              </button>
+
+            </div>
+          `;
+
+          ordersContainer.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error(err);
+
+        ordersContainer.innerHTML = `
+          <p class="error-text">
+            Server connection error.
+          </p>
+        `;
+      }
+    }
+
+    async function updateOrderStatus(orderId, status) {
+      try {
+        const token = localStorage.getItem("orderflow_token");
+
+        const res = await fetch(
+          `/api/staff/orders/${orderId}/status`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ status }),
+          }
+        );
+
+        if (!res.ok) {
+          alert("Failed to update order.");
+          return;
+        }
+
+        loadOrders();
+
+      } catch (err) {
+        console.error(err);
+        alert("Server error.");
+      }
+    }
+
+    initPage();
+  </script>
+
 </body>
 </html>
